@@ -1,0 +1,111 @@
+{
+  "$ref": "#/definitions/Config",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "Config": {
+      "additionalProperties": false,
+      "properties": {
+        "$schema": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "projectDependencies": {
+          "additionalProperties": {
+            "$ref": "#/definitions/ConfigProjectDependency"
+          },
+          "type": "object"
+        },
+        "targets": {
+          "additionalProperties": {
+            "$ref": "#/definitions/ConfigTarget"
+          },
+          "type": "object"
+        },
+        "variables": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "$schema",
+        "name",
+        "version"
+      ],
+      "type": "object"
+    },
+    "ConfigProjectDependency": {
+      "additionalProperties": false,
+      "properties": {
+        "install": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          ]
+        },
+        "source": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ConfigTarget": {
+      "additionalProperties": false,
+      "properties": {
+        "cmd": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          ]
+        },
+        "default": {
+          "type": "boolean"
+        },
+        "in": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          ]
+        },
+        "variables": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    }
+  }
+}
+
