@@ -1,6 +1,6 @@
 #pragma once
 
-#include "arguments.h"
+#include "arguments.hpp"
 
 #ifndef DEBUG
 #define DEBUG false

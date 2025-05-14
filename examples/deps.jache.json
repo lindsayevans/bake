@@ -1,4 +1,3 @@
-// jache configuration file for My Awesome Tool
 {
   "$schema": "../schema.json",
   "name": "My Awesome Tool",
@@ -8,16 +7,13 @@
     "lib": "./lib"
   },
   "projectDependencies": {
-    // Fetch & save single file
     "${lib}/uthash/uthash.h": {
       "source": "https://github.com/troydhanson/uthash/blob/master/src/uthash.h"
     },
-    // Checkout a git repo to a directory, then run a command to install
     "${lib}/log.c/": {
       "source": "git://https://github.com/rxi/log.c",
       "install": "cp src/* ./ && rm -rf src"
     },
-    // Symlink to something local
     "${lib}/something/": {
       "source": "../libsomething/"
     }

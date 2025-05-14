@@ -97,6 +97,19 @@
             }
           ]
         },
+        "transient": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          ]
+        },
         "variables": {
           "additionalProperties": {
             "type": "string"

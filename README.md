@@ -47,6 +47,18 @@ clang -llibcurl -o ./out/awesometool.exe ./out/main.o ./out/foo.o
 
 ```
 
+## Build
+
+### Dependencies
+
+[Jansson](https://jansson.readthedocs.io/en/latest/gettingstarted.html#compiling-and-installing-jansson)
+
+### Build & install
+
+```sh
+make && make install
+```
+
 ### Build schema
 
 ```sh
@@ -55,8 +67,8 @@ npx ts-json-schema-generator --path 'Config.ts' --type 'Config' > schema.json
 
 ## TODO:
 
-- All of the things
-- Variable substitution
+- JSONC support (Glaze)
+- Build schema using Glaze from config struct
 - Build dependency tree
 - Output dependency tree
 - Check dependency modification (time? hash?)

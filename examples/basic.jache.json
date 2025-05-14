@@ -1,4 +1,3 @@
-// jache configuration file for My Awesome Tool
 {
   "$schema": "../schema.json",
   "name": "My Awesome Tool",
@@ -9,30 +8,32 @@
     "out": "./out",
     "cc": "clang",
     "ccflags": "-Wall",
-    "ldflags": ""
+    "ldflags": "-llibcurl"
   },
   "targets": {
+    "default": {},
     "clean": {
       "cmd": "rm -rf ${out}/*"
     },
     "install": {
       "cmd": [
-        "cp ${out}/**/*.o /usr/local/lib/",
-        "cp ${src}/**/*.h /usr/local/include/",
+        "cp ${out}/*.o /usr/local/lib/",
+        "cp ${src}/*.h /usr/local/include/",
         "cp ${out}/awesometool /usr/local/bin/"
       ]
     },
-    "${out}/*.o": {
-      "in": "${src}/*.c",
+    "${out}/main.o": {
+      "in": "${src}/main.c",
       "cmd": "${cc} -c ${ccflags} -o ${:target} ${:in}"
-      // clang -c -Wall -o ./out/main.o ./out/main.c
-      // clang -c -Wall -o ./out/thing.o ./out/thing.c
+    },
+    "${out}/foo.o": {
+      "in": "${src}/foo.c",
+      "cmd": "${cc} -c ${ccflags} -o ${:target} ${:in}"
     },
     "${out}/awesometool": {
       "default": true,
-      "in": ["${out}/*.o"],
+      "in": ["${out}/main.o", "${out}/foo.o"],
       "cmd": "${cc} ${ldflags} -o ${:target} ${:in}"
-      // clang -Wall -o ./out/awesometool.exe ./out/main.o ./out/thing.o
     }
   }
 }

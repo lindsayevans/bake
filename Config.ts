@@ -11,6 +11,7 @@ export interface Config {
 export interface ConfigTarget {
   default?: boolean;
   in?: string | string[];
+  transient?: string | string[];
   cmd?: string | string[];
   variables?: Record<string, string>;
 }

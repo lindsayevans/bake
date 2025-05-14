@@ -1,6 +1,4 @@
-// jache configuration file for itself
 {
-  // "$schema": "https://querc.net/jache/1.2.3/schema.json",
   "$schema": "./schema.json",
   "name": "jache",
   "version": "0.0.1-alpha",
@@ -8,15 +6,19 @@
   "variables": {
     "src": "./src",
     "out": "./out",
-    "cc": "clang",
-    "ccflags": "-Wall",
-    "ldflags": "-llibcurl"
+    "cc": "clang++",
+    "ccflags": "-Wall -O3",
+    "ldflags": "-llibcurl -libglaze",
+    "dbg": "echo \"name: ${:name}\nversion: ${:version}\nsrc: '${src}'\nldflags: '${ldflags}'\nnope: '${nope}'\nraw: '\\${raw}' [EOT]\""
   },
   "targets": {
     "debug": {
       "variables": {
         "ccflags": "${ccflags} -O1 -DDEBUG"
       }
+    },
+    "dbg": {
+      "cmd": "${dbg}"
     },
     "clean": {
       "cmd": "rm -rf ${out}/*"
@@ -25,20 +27,18 @@
       "cmd": [
         "cp ${out}/*.o /usr/local/lib/",
         "cp ${src}/*.h /usr/local/include/",
-        "cp ${out}/awesometool /usr/local/bin/"
+        "cp ${out}/jache /usr/local/bin/"
       ]
     },
-    "${out}/*.o": {
-      "in": "${src}/*.c",
-      "cmd": "${cc} -c ${ccflags} -o ${:target} ${:in}"
-      // clang -c -Wall -o ./out/main.o ./out/main.c
-      // clang -c -Wall -o ./out/thing.o ./out/thing.c
+    "${out}/**/*.o": {
+      "in": "${src}/**/*.c",
+      "transient": "${src}/**/*.h",
+      "cmd": ["echo ${:transient}", "${cc} -c ${ccflags} -o ${:target} ${:in}"]
     },
-    "${out}/awesometool": {
+    "${out}/jache": {
       "default": true,
       "in": ["${out}/*.o"],
       "cmd": "${cc} ${ldflags} -o ${:target} ${:in}"
-      // clang -Wall -o ./out/awesometool.exe ./out/main.o ./out/thing.o
     }
   }
 }
