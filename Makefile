@@ -5,7 +5,7 @@ SRC_DIR = src
 INCLUDE_DIR = lib
 BUILD_DIR = bin
 INSTALL_DIR = /usr/local/bin
-EXE = $(BUILD_DIR)/jache
+EXE = $(BUILD_DIR)/bake
 
 SRCS = $(shell find $(SRC_DIR) -name '*.cpp')
 OBJS = $(subst $(SRC_DIR), $(BUILD_DIR), $(SRCS:.cpp=.o))

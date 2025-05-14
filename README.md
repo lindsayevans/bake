@@ -1,4 +1,4 @@
-# jache
+# bake
 
 A JSON based build tool, because make is a pain
 
@@ -7,23 +7,23 @@ A JSON based build tool, because make is a pain
 ## Usage
 
 ```sh
-jache [options] [...targets]
+bake [options] [...targets]
 ```
 
 ```sh
-jache clean default install
-jache --dry-run debug default
+bake clean default install
+bake --dry-run debug default
 ```
 
 ### Options
 
 ```
---config-file   -c      Default: jache.jsonc
+--config-file   -c      Default: bake.json
 --dry-run       -d
 --tree          -t
 ```
 
-`jache -d -t -c ./examples/basic.jache.jsonc`:
+`bake -d -t -c ./examples/basic.json`:
 
 ```
 ===========================
@@ -67,10 +67,15 @@ npx ts-json-schema-generator --path 'Config.ts' --type 'Config' > schema.json
 
 ## TODO:
 
-- JSONC support (Glaze)
+- JSONC support (Glaze) - probably need to switch to g++ for C++23 lang support
 - Build schema using Glaze from config struct
 - Build dependency tree
 - Output dependency tree
-- Check dependency modification (time? hash?)
+- Check dependency modification (time? hash? configurable?)
+  - Hash: store hashes in .bake/hashes.csv:
+    file,hash
+    src/foo.c,xxx
+    out/foo.o,yyy
 - Run commands
 - Install project dependencies
+- Watcher

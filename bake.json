@@ -1,6 +1,6 @@
 {
   "$schema": "./schema.json",
-  "name": "jache",
+  "name": "bake",
   "version": "0.0.1-alpha",
   "description": "A less painful build tool",
   "variables": {
@@ -27,7 +27,7 @@
       "cmd": [
         "cp ${out}/*.o /usr/local/lib/",
         "cp ${src}/*.h /usr/local/include/",
-        "cp ${out}/jache /usr/local/bin/"
+        "cp ${out}/bake /usr/local/bin/"
       ]
     },
     "${out}/**/*.o": {
@@ -35,7 +35,7 @@
       "transient": "${src}/**/*.h",
       "cmd": ["echo ${:transient}", "${cc} -c ${ccflags} -o ${:target} ${:in}"]
     },
-    "${out}/jache": {
+    "${out}/bake": {
       "default": true,
       "in": ["${out}/*.o"],
       "cmd": "${cc} ${ldflags} -o ${:target} ${:in}"

@@ -11,7 +11,7 @@
 
 struct program_arguments parse_arguments(int argc, char **argv)
 {
-    struct program_arguments arguments = {.exit_status = -1, .quiet = false, .config_file = "jache.json"};
+    struct program_arguments arguments = {.exit_status = -1, .quiet = false, .config_file = "bake.json"};
 
     int c;
 
@@ -92,6 +92,6 @@ void print_usage(void)
     printf("--quiet, -q\tQuiet mode - just output the result\n");
     printf("--help, -h\tPrint out usage information\n");
     printf("--version, -v\tPrint version information\n");
-    printf("--config-file, -c\tPath to donfig file (default: jache.json)\n");
+    printf("--config-file, -c\tPath to donfig file (default: bake.json)\n");
     printf("--print-config\tPrint configuration\n");
 }
