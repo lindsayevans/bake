@@ -7,6 +7,8 @@
 #include "main.hpp"
 #include "arguments.hpp"
 
+#define ARG_PRINT_CONFIG 1000
+
 struct program_arguments parse_arguments(int argc, char **argv)
 {
     struct program_arguments arguments = {.exit_status = -1, .quiet = false, .config_file = "jache.json"};
@@ -21,6 +23,7 @@ struct program_arguments parse_arguments(int argc, char **argv)
             {"help", no_argument, NULL, 'h'},
             {"quiet", no_argument, NULL, 'q'},
             {"config-file", required_argument, NULL, 'c'},
+            {"print-config", no_argument, NULL, ARG_PRINT_CONFIG},
             {0, 0, 0, 0}};
         int option_index = 0;
 
@@ -49,6 +52,10 @@ struct program_arguments parse_arguments(int argc, char **argv)
 
         case 'c':
             arguments.config_file = optarg;
+            break;
+
+        case ARG_PRINT_CONFIG:
+            arguments.print_config = true;
             break;
 
         case '?':
@@ -85,4 +92,6 @@ void print_usage(void)
     printf("--quiet, -q\tQuiet mode - just output the result\n");
     printf("--help, -h\tPrint out usage information\n");
     printf("--version, -v\tPrint version information\n");
+    printf("--config-file, -c\tPath to donfig file (default: jache.json)\n");
+    printf("--print-config\tPrint configuration\n");
 }

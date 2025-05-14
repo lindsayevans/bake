@@ -24,7 +24,10 @@ int main(int argc, char **argv)
         cerr << "Error loading config file " << args.config_file << endl;
         return EXIT_FAILURE;
     }
-    print_config(config);
+    if (args.print_config)
+    {
+        print_config(config);
+    }
 
     return EXIT_SUCCESS;
 }

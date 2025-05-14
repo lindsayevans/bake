@@ -5,6 +5,7 @@ struct program_arguments
 {
     int8_t exit_status;
     bool quiet;
+    bool print_config;
     std::string config_file;
 };
 
