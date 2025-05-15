@@ -20,7 +20,6 @@ int main(int argc, char **argv)
     struct config config = load_config(args.config_file);
     if (!config.loaded)
     {
-        // printf("Error loading config file %s\n", args.config_file);
         cerr << "Error loading config file " << args.config_file << endl;
         return EXIT_FAILURE;
     }

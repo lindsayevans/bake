@@ -6,6 +6,7 @@
 #include <string>
 #include <iostream>
 #include <map>
+#include <vector>
 
 #include <jansson.h>
 
@@ -57,6 +58,10 @@ struct config load_config(string path)
         {
             config.variables = get_variables(config, value);
         }
+        if (strcmp(k, "targets") == 0)
+        {
+            config.targets = get_targets(config, value);
+        }
     }
 
     json_decref(json);
@@ -100,6 +105,69 @@ string get_variable(struct config config, string key)
     return config.variables[key];
 }
 
+struct config_target get_target(struct config config, json_t *target_json)
+{
+
+    struct config_target target = {};
+    const char *key;
+    json_t *value;
+
+    json_object_foreach(target_json, key, value)
+    {
+
+        char *k = strdup(key);
+        if (strcmp(k, "default") == 0)
+        {
+            target.is_default = json_boolean_value(value) == 1;
+        }
+
+        if (strcmp(k, "in") == 0)
+        {
+            size_t index;
+            json_t *v;
+            json_array_foreach(value, index, v)
+            {
+                target.in.push_back(interpolate_variable(config, json_string_value(v)));
+            }
+        }
+
+        if (strcmp(k, "transitive") == 0)
+        {
+            size_t index;
+            json_t *v;
+            json_array_foreach(value, index, v)
+            {
+                target.transitive.push_back(interpolate_variable(config, json_string_value(v)));
+            }
+        }
+
+        if (strcmp(k, "cmd") == 0)
+        {
+            size_t index;
+            json_t *v;
+            json_array_foreach(value, index, v)
+            {
+                target.cmd.push_back(interpolate_variable(config, json_string_value(v)));
+            }
+        }
+    }
+
+    return target;
+}
+
+map<string, config_target> get_targets(struct config config, json_t *targets_json)
+{
+    const char *key;
+    json_t *value;
+    json_object_foreach(targets_json, key, value)
+    {
+        struct config_target target = get_target(config, value);
+        config.targets.insert(std::pair{interpolate_variable(config, key), target});
+    }
+
+    return config.targets;
+}
+
 void print_config(struct config config)
 {
     cout << "config:" << endl
@@ -111,5 +179,35 @@ void print_config(struct config config)
     for (auto &[key, value] : config.variables)
     {
         cout << "   " << key << ": " << value << endl;
+    }
+
+    cout << " - targets: " << endl;
+    for (auto &[target_name, target] : config.targets)
+    {
+        cout << "   " << target_name << (target.is_default ? " (default)" : "") << ": " << endl;
+        if (target.in.size() > 0)
+        {
+            cout << "   - in: " << endl;
+            for (string in : target.in)
+            {
+                cout << "       " << in << endl;
+            }
+        }
+        if (target.transitive.size() > 0)
+        {
+            cout << "   - transitive: " << endl;
+            for (string transitive : target.transitive)
+            {
+                cout << "       " << transitive << endl;
+            }
+        }
+        if (target.cmd.size() > 0)
+        {
+            cout << "   - cmd: " << endl;
+            for (string cmd : target.cmd)
+            {
+                cout << "       " << cmd << endl;
+            }
+        }
     }
 }

@@ -1,8 +1,8 @@
 # bake
 
-A JSON based build tool, because make is a pain
+yet another build automation tool
 
-> Pronounced like the name "Jake"
+- JSON configuration
 
 ## Usage
 
@@ -67,8 +67,6 @@ npx ts-json-schema-generator --path 'Config.ts' --type 'Config' > schema.json
 
 ## TODO:
 
-- JSONC support (Glaze) - probably need to switch to g++ for C++23 lang support
-- Build schema using Glaze from config struct
 - Build dependency tree
 - Output dependency tree
 - Check dependency modification (time? hash? configurable?)
@@ -77,5 +75,7 @@ npx ts-json-schema-generator --path 'Config.ts' --type 'Config' > schema.json
     src/foo.c,xxx
     out/foo.o,yyy
 - Run commands
+- JSONC support (Glaze) - probably need to switch to g++ for C++23 lang support
+- Build schema using Glaze from config struct
 - Install project dependencies
 - Watcher

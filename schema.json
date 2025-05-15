@@ -47,17 +47,10 @@
       "additionalProperties": false,
       "properties": {
         "install": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            }
-          ]
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         },
         "source": {
           "type": "string"
@@ -69,46 +62,25 @@
       "additionalProperties": false,
       "properties": {
         "cmd": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            }
-          ]
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         },
         "default": {
           "type": "boolean"
         },
         "in": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            }
-          ]
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         },
-        "transient": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            }
-          ]
+        "transitive": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         },
         "variables": {
           "additionalProperties": {

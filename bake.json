@@ -9,19 +9,20 @@
     "cc": "clang++",
     "ccflags": "-Wall -O3",
     "ldflags": "-llibcurl -libglaze",
-    "dbg": "echo \"name: ${:name}\nversion: ${:version}\nsrc: '${src}'\nldflags: '${ldflags}'\nnope: '${nope}'\nraw: '\\${raw}' [EOT]\""
+    "dbg": "echo \"name: ${:name}\tversion: ${:version}\tsrc: '${src}'\tldflags: '${ldflags}'\tnope: '${nope}'\traw: '\\${raw}' [EOT]\""
   },
   "targets": {
     "debug": {
       "variables": {
         "ccflags": "${ccflags} -O1 -DDEBUG"
-      }
+      },
+      "cmd": ["cc ${ccflags}"]
     },
     "dbg": {
-      "cmd": "${dbg}"
+      "cmd": ["${dbg}"]
     },
     "clean": {
-      "cmd": "rm -rf ${out}/*"
+      "cmd": ["rm -rf ${out}/*"]
     },
     "install": {
       "cmd": [
@@ -31,14 +32,14 @@
       ]
     },
     "${out}/**/*.o": {
-      "in": "${src}/**/*.c",
-      "transient": "${src}/**/*.h",
-      "cmd": ["echo ${:transient}", "${cc} -c ${ccflags} -o ${:target} ${:in}"]
+      "in": ["${src}/**/*.c"],
+      "transitive": ["${src}/**/*.h"],
+      "cmd": ["echo ${:transitive}", "${cc} -c ${ccflags} -o ${:target} ${:in}"]
     },
     "${out}/bake": {
       "default": true,
       "in": ["${out}/*.o"],
-      "cmd": "${cc} ${ldflags} -o ${:target} ${:in}"
+      "cmd": ["${cc} ${ldflags} -o ${:target} ${:in}"]
     }
   }
 }

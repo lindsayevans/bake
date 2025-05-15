@@ -10,13 +10,13 @@ export interface Config {
 
 export interface ConfigTarget {
   default?: boolean;
-  in?: string | string[];
-  transient?: string | string[];
-  cmd?: string | string[];
+  in?: string[];
+  transitive?: string[];
+  cmd?: string[];
   variables?: Record<string, string>;
 }
 
 export interface ConfigProjectDependency {
   source?: string;
-  install?: string | string[];
+  install?: string[];
 }
