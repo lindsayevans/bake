@@ -88,9 +88,9 @@ map<string, string> get_variables(struct config config, json_t *variables_json)
 
 string interpolate_variable(struct config config, string source)
 {
-    replace_all(source, "${:name}", config.name);
-    replace_all(source, "${:version}", config.version);
-    replace_all(source, "${:description}", config.description);
+    replace_all(source, "${:NAME}", config.name);
+    replace_all(source, "${:VERSION}", config.version);
+    replace_all(source, "${:DESCRIPTION}", config.description);
 
     for (auto &[key, value] : config.variables)
     {
@@ -166,6 +166,28 @@ map<string, config_target> get_targets(struct config config, json_t *targets_jso
     }
 
     return config.targets;
+}
+
+vector<string> get_default_targets(config config)
+{
+    vector<string> defaults = {};
+
+    for (auto &[key, value] : config.targets)
+    {
+        if (value.is_default)
+        {
+            defaults.push_back(key);
+        }
+    }
+
+    // No default targets, grab the first one
+    // TODO: Not working for multiple
+    if (defaults.size() == 0)
+    {
+        defaults.push_back(config.targets.begin()->first);
+    }
+
+    return defaults;
 }
 
 void print_config(struct config config)

@@ -33,3 +33,4 @@ map<string, string> get_variables(struct config config, json_t *variables_json);
 string interpolate_variable(struct config config, string value);
 string get_variable(struct config config, string key);
 map<string, config_target> get_targets(struct config config, json_t *targets_json);
+vector<string> get_default_targets(struct config config);

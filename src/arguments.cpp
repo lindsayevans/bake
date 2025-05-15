@@ -66,14 +66,14 @@ struct program_arguments parse_arguments(int argc, char **argv)
         }
     }
 
-    // arguments.targets = {};
-    // if (optind < argc)
-    // {
-    //     while (optind < argc)
-    //     {
-    //         arguments.targets[optind] = argv[optind++];
-    //     }
-    // }
+    // Remaining arguments are targets to run
+    if (optind < argc)
+    {
+        while (optind < argc)
+        {
+            arguments.targets.push_back(argv[optind++]);
+        }
+    }
 
     return arguments;
 }
