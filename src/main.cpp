@@ -18,7 +18,7 @@ int main(int argc, char **argv)
         return args.exit_status;
     }
 
-    struct config config = load_config(args.config_file);
+    struct config config = load_config(args);
     if (!config.loaded)
     {
         cerr << "Error loading config file " << args.config_file << endl;

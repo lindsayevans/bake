@@ -1,12 +1,18 @@
 #pragma once
 #include <string>
+#include <map>
+#include <vector>
+
+using namespace std;
 
 struct program_arguments
 {
     int8_t exit_status;
     bool quiet;
     bool print_config;
-    std::string config_file;
+    string config_file;
+    map<string, string> defines = {};
+    vector<string> targets = {};
 };
 
 struct program_arguments parse_arguments(int argc, char **argv);

@@ -6,6 +6,8 @@
 
 #include <jansson.h>
 
+#include "arguments.hpp"
+
 using namespace std;
 
 struct config_target
@@ -27,9 +29,9 @@ struct config
     map<string, config_target> targets;
 };
 
-struct config load_config(string path);
+struct config load_config(struct program_arguments args);
 void print_config(struct config config);
-map<string, string> get_variables(struct config config, json_t *variables_json);
+map<string, string> get_variables(struct config config, json_t *variables_json, map<string, string> defines);
 string interpolate_variable(struct config config, string value);
 string get_variable(struct config config, string key);
 map<string, config_target> get_targets(struct config config, json_t *targets_json);

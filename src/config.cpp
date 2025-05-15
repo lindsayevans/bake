@@ -12,17 +12,18 @@
 
 #include "util/string.hpp"
 #include "config.hpp"
+#include "arguments.hpp"
 
 using namespace std;
 
-struct config load_config(string path)
+struct config load_config(struct program_arguments args)
 {
     struct config config = {.loaded = false};
 
     json_t *json;
     json_error_t error;
 
-    json = json_load_file(path.c_str(), 0, &error);
+    json = json_load_file(args.config_file.c_str(), 0, &error);
     if (!json)
     {
         fprintf(stderr, "error: on line %d: %s\n", error.line, error.text);
@@ -56,7 +57,7 @@ struct config load_config(string path)
         }
         if (strcmp(k, "variables") == 0)
         {
-            config.variables = get_variables(config, value);
+            config.variables = get_variables(config, value, args.defines);
         }
         if (strcmp(k, "targets") == 0)
         {
@@ -69,7 +70,7 @@ struct config load_config(string path)
     return config;
 }
 
-map<string, string> get_variables(struct config config, json_t *variables_json)
+map<string, string> get_variables(struct config config, json_t *variables_json, map<string, string> defines)
 {
     const char *key;
     json_t *value;
@@ -78,9 +79,15 @@ map<string, string> get_variables(struct config config, json_t *variables_json)
         config.variables.insert(std::pair{key, json_string_value(value)});
     }
 
+    // TODO: should be making a second pass to interpolate variables after they've all been added
     for (auto &[key, value] : config.variables)
     {
         config.variables[key] = interpolate_variable(config, value);
+    }
+
+    for (auto &[key, value] : defines)
+    {
+        config.variables.insert_or_assign(key, interpolate_variable(config, value));
     }
 
     return config.variables;
@@ -203,33 +210,33 @@ void print_config(struct config config)
         cout << "   " << key << ": " << value << endl;
     }
 
-    cout << " - targets: " << endl;
-    for (auto &[target_name, target] : config.targets)
-    {
-        cout << "   " << target_name << (target.is_default ? " (default)" : "") << ": " << endl;
-        if (target.in.size() > 0)
-        {
-            cout << "   - in: " << endl;
-            for (string in : target.in)
-            {
-                cout << "       " << in << endl;
-            }
-        }
-        if (target.transitive.size() > 0)
-        {
-            cout << "   - transitive: " << endl;
-            for (string transitive : target.transitive)
-            {
-                cout << "       " << transitive << endl;
-            }
-        }
-        if (target.cmd.size() > 0)
-        {
-            cout << "   - cmd: " << endl;
-            for (string cmd : target.cmd)
-            {
-                cout << "       " << cmd << endl;
-            }
-        }
-    }
+    // cout << " - targets: " << endl;
+    // for (auto &[target_name, target] : config.targets)
+    // {
+    //     cout << "   " << target_name << (target.is_default ? " (default)" : "") << ": " << endl;
+    //     if (target.in.size() > 0)
+    //     {
+    //         cout << "   - in: " << endl;
+    //         for (string in : target.in)
+    //         {
+    //             cout << "       " << in << endl;
+    //         }
+    //     }
+    //     if (target.transitive.size() > 0)
+    //     {
+    //         cout << "   - transitive: " << endl;
+    //         for (string transitive : target.transitive)
+    //         {
+    //             cout << "       " << transitive << endl;
+    //         }
+    //     }
+    //     if (target.cmd.size() > 0)
+    //     {
+    //         cout << "   - cmd: " << endl;
+    //         for (string cmd : target.cmd)
+    //         {
+    //             cout << "       " << cmd << endl;
+    //         }
+    //     }
+    // }
 }

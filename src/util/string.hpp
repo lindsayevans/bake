@@ -1,5 +1,12 @@
 #pragma once
 
 #include <string>
+#include <sstream>
+#include <vector>
+#include <iostream>
+#include <map>
 
-void replace_all(std::string &str, const std::string &from, const std::string &to);
+using namespace std;
+
+void replace_all(string &str, const string &from, const string &to);
+map<string, string> parse_key_value_string(const string &input, char delimiter);

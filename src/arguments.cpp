@@ -4,10 +4,27 @@
 #include <stdbool.h>
 #include <getopt.h>
 
+#include <iostream>
+#include <unordered_map>
+
 #include "main.hpp"
 #include "arguments.hpp"
+#include "util/string.hpp"
+
+using namespace std;
 
 #define ARG_PRINT_CONFIG 1000
+
+map<string, string> populate_defines(struct program_arguments args, char *optarg)
+{
+    map<string, string> defines = parse_key_value_string(optarg, ',');
+    for (auto &[key, value] : defines)
+    {
+        args.defines.insert_or_assign(key, value);
+    }
+
+    return args.defines;
+}
 
 struct program_arguments parse_arguments(int argc, char **argv)
 {
@@ -17,12 +34,13 @@ struct program_arguments parse_arguments(int argc, char **argv)
 
     while (1)
     {
-        const char *short_options = "qvhc:";
+        const char *short_options = "qvhc:D:";
         static struct option long_options[] = {
             {"version", no_argument, NULL, 'v'},
             {"help", no_argument, NULL, 'h'},
             {"quiet", no_argument, NULL, 'q'},
             {"config-file", required_argument, NULL, 'c'},
+            {"D", required_argument, NULL, 'D'},
             {"print-config", no_argument, NULL, ARG_PRINT_CONFIG},
             {0, 0, 0, 0}};
         int option_index = 0;
@@ -52,6 +70,12 @@ struct program_arguments parse_arguments(int argc, char **argv)
 
         case 'c':
             arguments.config_file = optarg;
+            break;
+
+        case 'D':
+            // Define a variable
+            // Expects NAME=VALUE
+            arguments.defines = populate_defines(arguments, optarg);
             break;
 
         case ARG_PRINT_CONFIG:
@@ -94,4 +118,5 @@ void print_usage(void)
     printf("--version, -v\tPrint version information\n");
     printf("--config-file, -c\tPath to donfig file (default: bake.json)\n");
     printf("--print-config\tPrint configuration\n");
+    printf("-D\tPDefine a variable (e.g. -DFOO=bar)\n");
 }
