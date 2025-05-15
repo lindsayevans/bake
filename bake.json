@@ -4,42 +4,46 @@
   "version": "0.0.1-alpha",
   "description": "A less painful build tool",
   "variables": {
-    "src": "./src",
-    "out": "./out",
-    "cc": "clang++",
-    "ccflags": "-Wall -O3",
-    "ldflags": "-llibcurl -libglaze",
-    "dbg": "echo \"name: ${:name}\tversion: ${:version}\tsrc: '${src}'\tldflags: '${ldflags}'\tnope: '${nope}'\traw: '\\${raw}' [EOT]\""
+    "SRC": "./src",
+    "OUT": "./out",
+    "CC": "clang++",
+    "CCFLAGS": "-Wall -O3",
+    "LDFLAGS": "-llibcurl -libglaze",
+    "DBG": "echo \"name: ${:NAME}\tversion: ${:VERSION}\tsrc: '${SRC}'\tldflags: '${LDFLAGS}'\tnope: '${NOPE}'\traw: '\\${RAW}' [EOT]\""
   },
   "targets": {
     "debug": {
       "variables": {
-        "ccflags": "${ccflags} -O1 -DDEBUG"
+        "ccflags": "${CCFLAGS} -O1 -DDEBUG"
       },
-      "cmd": ["cc ${ccflags}"]
+      "cmd": ["cc ${CCFLAGS}"]
     },
     "dbg": {
-      "cmd": ["${dbg}"]
+      "default": true,
+      "cmd": ["${DBG}"]
     },
     "clean": {
-      "cmd": ["rm -rf ${out}/*"]
+      "cmd": ["rm -rf ${OUT}/*"]
     },
     "install": {
       "cmd": [
-        "cp ${out}/*.o /usr/local/lib/",
-        "cp ${src}/*.h /usr/local/include/",
-        "cp ${out}/bake /usr/local/bin/"
+        "cp ${OUT}/*.o /usr/local/lib/",
+        "cp ${SRC}/*.h /usr/local/include/",
+        "cp ${OUT}/bake /usr/local/bin/"
       ]
     },
-    "${out}/**/*.o": {
-      "in": ["${src}/**/*.c"],
-      "transitive": ["${src}/**/*.h"],
-      "cmd": ["echo ${:transitive}", "${cc} -c ${ccflags} -o ${:target} ${:in}"]
+    "${OUT}/**/*.o": {
+      "in": ["${SRC}/**/*.c"],
+      "transitive": ["${SRC}/**/*.h"],
+      "cmd": ["echo ${:TRANSITIVE}", "${CC} -c ${CCFLAGS} -o ${:TARGET} ${:IN}"]
     },
-    "${out}/bake": {
+    "${OUT}/bake": {
       "default": true,
-      "in": ["${out}/*.o"],
-      "cmd": ["${cc} ${ldflags} -o ${:target} ${:in}"]
+      "in": ["${OUT}/*.o"],
+      "cmd": [
+        "echo \"Building ${:NAME} v${:VERSION}...\"",
+        "${CC} ${LDFLAGS} -o ${:TARGET} ${:IN}"
+      ]
     }
   }
 }

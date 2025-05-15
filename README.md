@@ -75,6 +75,8 @@ npx ts-json-schema-generator --path 'Config.ts' --type 'Config' > schema.json
     src/foo.c,xxx
     out/foo.o,yyy
 - Run commands
+- Split variable interpolation out into a second pass, add --print-config-original
+- Variables: get from env -> config -> params
 - JSONC support (Glaze) - probably need to switch to g++ for C++23 lang support
 - Build schema using Glaze from config struct
 - Install project dependencies
