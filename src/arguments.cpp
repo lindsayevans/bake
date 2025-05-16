@@ -14,6 +14,7 @@
 using namespace std;
 
 #define ARG_PRINT_CONFIG 1000
+#define ARG_PRINT_tree 1001
 
 map<string, string> populate_defines(struct program_arguments args, char *optarg)
 {
@@ -34,7 +35,7 @@ struct program_arguments parse_arguments(int argc, char **argv)
 
     while (1)
     {
-        const char *short_options = "qvhc:D:";
+        const char *short_options = "qvhdc:D:";
         static struct option long_options[] = {
             {"version", no_argument, NULL, 'v'},
             {"help", no_argument, NULL, 'h'},
@@ -42,6 +43,8 @@ struct program_arguments parse_arguments(int argc, char **argv)
             {"config-file", required_argument, NULL, 'c'},
             {"D", required_argument, NULL, 'D'},
             {"print-config", no_argument, NULL, ARG_PRINT_CONFIG},
+            {"print-tree", no_argument, NULL, ARG_PRINT_tree},
+            {"dry-run", no_argument, NULL, 'd'},
             {0, 0, 0, 0}};
         int option_index = 0;
 
@@ -82,6 +85,14 @@ struct program_arguments parse_arguments(int argc, char **argv)
             arguments.print_config = true;
             break;
 
+        case ARG_PRINT_tree:
+            arguments.print_tree = true;
+            break;
+
+        case 'd':
+            arguments.dry_run = true;
+            break;
+
         case '?':
             break;
 
@@ -118,5 +129,7 @@ void print_usage(void)
     printf("--version, -v\tPrint version information\n");
     printf("--config-file, -c\tPath to donfig file (default: bake.json)\n");
     printf("--print-config\tPrint configuration\n");
+    printf("--print-tree\tPrint the deoendency tree\n");
+    printf("--dry-run, -d\tDon't execute commands, just print\n");
     printf("-D\tPDefine a variable (e.g. -DFOO=bar)\n");
 }

@@ -10,6 +10,8 @@ struct program_arguments
     int8_t exit_status;
     bool quiet;
     bool print_config;
+    bool print_tree;
+    bool dry_run;
     string config_file;
     map<string, string> defines = {};
     vector<string> targets = {};

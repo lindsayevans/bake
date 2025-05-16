@@ -13,6 +13,7 @@ using namespace std;
 struct config_target
 {
     bool is_default;
+    bool cmd_mutiple;
     vector<string> in;
     vector<string> transitive;
     vector<string> cmd;

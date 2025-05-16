@@ -157,6 +157,11 @@ struct config_target get_target(struct config config, json_t *target_json)
                 target.cmd.push_back(interpolate_variable(config, json_string_value(v)));
             }
         }
+
+        if (strcmp(k, "cmdMulti") == 0)
+        {
+            target.cmd_mutiple = json_boolean_value(value) == 1;
+        }
     }
 
     return target;
@@ -210,33 +215,33 @@ void print_config(struct config config)
         cout << "   " << key << ": " << value << endl;
     }
 
-    // cout << " - targets: " << endl;
-    // for (auto &[target_name, target] : config.targets)
-    // {
-    //     cout << "   " << target_name << (target.is_default ? " (default)" : "") << ": " << endl;
-    //     if (target.in.size() > 0)
-    //     {
-    //         cout << "   - in: " << endl;
-    //         for (string in : target.in)
-    //         {
-    //             cout << "       " << in << endl;
-    //         }
-    //     }
-    //     if (target.transitive.size() > 0)
-    //     {
-    //         cout << "   - transitive: " << endl;
-    //         for (string transitive : target.transitive)
-    //         {
-    //             cout << "       " << transitive << endl;
-    //         }
-    //     }
-    //     if (target.cmd.size() > 0)
-    //     {
-    //         cout << "   - cmd: " << endl;
-    //         for (string cmd : target.cmd)
-    //         {
-    //             cout << "       " << cmd << endl;
-    //         }
-    //     }
-    // }
+    cout << " - targets: " << endl;
+    for (auto &[target_name, target] : config.targets)
+    {
+        cout << "   " << target_name << (target.is_default ? " (default)" : "") << ": " << endl;
+        if (target.in.size() > 0)
+        {
+            cout << "   - in: " << endl;
+            for (string in : target.in)
+            {
+                cout << "       " << in << endl;
+            }
+        }
+        if (target.transitive.size() > 0)
+        {
+            cout << "   - transitive: " << endl;
+            for (string transitive : target.transitive)
+            {
+                cout << "       " << transitive << endl;
+            }
+        }
+        if (target.cmd.size() > 0)
+        {
+            cout << "   - cmd: " << endl;
+            for (string cmd : target.cmd)
+            {
+                cout << "       " << cmd << endl;
+            }
+        }
+    }
 }

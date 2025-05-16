@@ -67,6 +67,9 @@
           },
           "type": "array"
         },
+        "cmdMulti": {
+          "type": "boolean"
+        },
         "default": {
           "type": "boolean"
         },

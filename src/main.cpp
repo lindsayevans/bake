@@ -5,10 +5,12 @@
 
 #include <iostream>
 #include <vector>
+#include <queue>
 
 #include "main.hpp"
 #include "arguments.hpp"
 #include "config.hpp"
+#include "dependency_tree.hpp"
 
 int main(int argc, char **argv)
 {
@@ -35,13 +37,37 @@ int main(int argc, char **argv)
         cerr << "No targets" << endl;
         return EXIT_FAILURE;
     }
-    else
+
+    vector<struct dependency_tree> dependency_trees = build_dependency_trees(config, targets);
+    if (args.print_tree)
     {
-        cout << "Targets:" << endl;
+        cout << "# Dependency tree:" << endl;
+        print_dependency_trees(dependency_trees);
+        cout << endl;
+    }
+
+    // TODO: command queue should be grouped by target, so we can show progress, lookup vars etc. - also potentially run commands in parallel
+    queue<string> command_queue = build_command_queue(dependency_trees, config);
+    if (args.dry_run)
+    {
+        cout << "# Dry run - commands that would execute:" << endl;
+        print_command_queue(command_queue);
+    }
+
+    if (!args.quiet && !args.dry_run)
+    {
+        cout << endl
+             << "Baking targets: ";
         for (const string &target : targets)
         {
-            cout << target << endl;
+            cout << target;
+            if (target != targets.back())
+            {
+                cout << ", ";
+            }
         }
+        cout << endl
+             << endl;
     }
 
     return EXIT_SUCCESS;

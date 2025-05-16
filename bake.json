@@ -12,6 +12,36 @@
     "DBG": "echo \"name: ${:NAME}\tversion: ${:VERSION}\tsrc: '${SRC}'\tldflags: '${LDFLAGS}'\tnope: '${NOPE}'\traw: '\\${RAW}' [EOT]\""
   },
   "targets": {
+    "a": {
+      "in": ["a1.o", "a2.o", "a3.o"]
+    },
+    "a1.o": {
+      "in": ["a1-1.c", "a1-2.c"]
+    },
+    "a2.o": {
+      "in": ["a2-1.c", "a2-2.c"]
+    },
+    "a3.o": {
+      "in": ["a3-1.c", "a3-2.c"]
+    },
+    "a1-1.c": {
+      "in": ["a1-1.t"]
+    },
+    "a2-1.c": {
+      "in": ["a2-1.t"]
+    },
+    "a3-1.c": {
+      "in": ["a3-1.t"]
+    },
+    "a1-2.c": {
+      "in": ["a1-2.t"]
+    },
+    "a2-2.c": {
+      "in": ["a2-2.t"]
+    },
+    "a3-2.c": {
+      "in": ["a3-2.t"]
+    },
     "debug": {
       "variables": {
         "ccflags": "${CCFLAGS} -O1 -DDEBUG"
@@ -39,7 +69,7 @@
     },
     "${OUT}/bake": {
       "default": true,
-      "in": ["${OUT}/*.o"],
+      "in": ["${OUT}/**/*.o"],
       "cmd": [
         "echo \"Building ${:NAME} v${:VERSION}...\"",
         "${CC} ${LDFLAGS} -o ${:TARGET} ${:IN}"

@@ -13,6 +13,7 @@ export interface ConfigTarget {
   in?: string[];
   transitive?: string[];
   cmd?: string[];
+  cmdMulti?: boolean;
   variables?: Record<string, string>;
 }
 
