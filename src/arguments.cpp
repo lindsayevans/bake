@@ -122,14 +122,14 @@ void print_usage(void)
 {
     print_version();
     printf("\nUsage:\n");
-    printf("%s [options] [target]\n\n", PROGRAM_NAME);
+    printf("%s [options] [...targets]\n\n", PROGRAM_NAME);
     printf("Options:\n");
-    printf("--quiet, -q\tQuiet mode - just output the result\n");
-    printf("--help, -h\tPrint out usage information\n");
-    printf("--version, -v\tPrint version information\n");
+    printf("--quiet, -q\t\tQuiet mode - just output the result\n");
+    printf("--help, -h\t\tPrint out usage information\n");
+    printf("--version, -v\t\tPrint version information\n");
     printf("--config-file, -c\tPath to donfig file (default: bake.json)\n");
-    printf("--print-config\tPrint configuration\n");
-    printf("--print-tree\tPrint the deoendency tree\n");
-    printf("--dry-run, -d\tDon't execute commands, just print\n");
-    printf("-D\tPDefine a variable (e.g. -DFOO=bar)\n");
+    printf("--print-config\t\tPrint configuration\n");
+    printf("--print-tree\t\tPrint the deoendency tree\n");
+    printf("--dry-run, -d\t\tDon't execute commands, just print\n");
+    printf("-D\t\t\tDefine a variable (e.g. -DFOO=bar -DA=a,B=b)\n");
 }

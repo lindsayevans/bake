@@ -1,8 +1,24 @@
-# bake
+# Bake
 
-yet another build automation tool
+Yet another build automation tool - partly inspired by Make and NPM
+
+## Features:
 
 - JSON configuration
+- Variables
+- Build dependencies - only triggers on changed source/transitive dependencies
+
+## TODO:
+
+- Actually run commands
+- Split variable interpolation out into a second pass
+- Variables: get from env
+- JSONC support (Glaze) - probably need to switch to g++ for C++23 lang support
+- Build schema using Glaze from config struct
+- Install project dependencies
+- Watch mode
+- Parallel command execution
+- "Dashboard" mode to show command execution progress
 
 ## Usage
 
@@ -10,41 +26,17 @@ yet another build automation tool
 bake [options] [...targets]
 ```
 
-```sh
-bake clean default install
-bake --dry-run debug default
-```
-
 ### Options
 
 ```
---config-file   -c      Default: bake.json
---dry-run       -d
---tree          -t
-```
-
-`bake -d -t -c ./examples/basic.json`:
-
-```
-===========================
-
-Target dependency tree:
-
-+ clean
-+ install
-+ ./out/awesometool     [S]
-  + ./out/main.o        [U]
-    + ./src/main.c      [U]
-  + ./out/foo.o         [S]
-    + ./src/foo.c       [S]
-
-===========================
-
-Dry run:
-
-clang -c -Wall -o ./out/foo.o ./out/foo.c
-clang -llibcurl -o ./out/awesometool.exe ./out/main.o ./out/foo.o
-
+--quiet, -q             Quiet mode - just output the result
+--help, -h              Print out usage information
+--version, -v           Print version information
+--config-file, -c       Path to donfig file (default: bake.json)
+--print-config          Print configuration
+--print-tree            Print the deoendency tree
+--dry-run, -d           Don't execute commands, just print
+-D                      Define a variable (e.g. -DFOO=bar -DA=a,B=b)
 ```
 
 ## Build
@@ -64,20 +56,3 @@ make && make install
 ```sh
 npx ts-json-schema-generator --path 'Config.ts' --type 'Config' > schema.json
 ```
-
-## TODO:
-
-- Build dependency tree
-- Output dependency tree
-- Check dependency modification (time? hash? configurable?)
-  - Hash: store hashes in .bake/hashes.csv:
-    file,hash
-    src/foo.c,xxx
-    out/foo.o,yyy
-- Run commands
-- Split variable interpolation out into a second pass, add --print-config-original
-- Variables: get from env -> config -> params
-- JSONC support (Glaze) - probably need to switch to g++ for C++23 lang support
-- Build schema using Glaze from config struct
-- Install project dependencies
-- Watcher
