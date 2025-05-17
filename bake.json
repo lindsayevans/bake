@@ -2,70 +2,32 @@
   "$schema": "./schema.json",
   "name": "bake",
   "version": "0.0.1-alpha",
-  "description": "A less painful build tool",
+  "description": "Yet another build automation tool",
   "variables": {
     "SRC": "./src",
-    "OUT": "./out",
+    "OUT": "./bin",
+    "INSTALL_DIR": "/usr/local/bin",
     "CC": "clang++",
-    "CCFLAGS": "-Wall -O3",
-    "LDFLAGS": "-llibcurl -libglaze",
-    "DBG": "echo \"name: ${:NAME}\tversion: ${:VERSION}\tsrc: '${SRC}'\tldflags: '${LDFLAGS}'\tnope: '${NOPE}'\traw: '\\${RAW}' [EOT]\""
+    "CCFLAGS": "-Wall -std=c++2b -O3",
+    "LDFLAGS": "-ljansson"
   },
   "targets": {
-    "a": {
-      "in": ["a1.o", "a2.o", "a3.o"]
-    },
-    "a1.o": {
-      "in": ["a1-1.c", "a1-2.c"]
-    },
-    "a2.o": {
-      "in": ["a2-1.c", "a2-2.c"]
-    },
-    "a3.o": {
-      "in": ["a3-1.c", "a3-2.c"]
-    },
-    "a1-1.c": {
-      "in": ["a1-1.t"]
-    },
-    "a2-1.c": {
-      "in": ["a2-1.t"]
-    },
-    "a3-1.c": {
-      "in": ["a3-1.t"]
-    },
-    "a1-2.c": {
-      "in": ["a1-2.t"]
-    },
-    "a2-2.c": {
-      "in": ["a2-2.t"]
-    },
-    "a3-2.c": {
-      "in": ["a3-2.t"]
-    },
     "debug": {
       "variables": {
-        "ccflags": "${CCFLAGS} -O1 -DDEBUG"
-      },
-      "cmd": ["cc ${CCFLAGS}"]
-    },
-    "dbg": {
-      "default": true,
-      "cmd": ["${DBG}"]
+        "CCFLAGS": "${CCFLAGS} -DDEBUG -g -O1"
+      }
     },
     "clean": {
       "cmd": ["rm -rf ${OUT}/*"]
     },
     "install": {
-      "cmd": [
-        "cp ${OUT}/*.o /usr/local/lib/",
-        "cp ${SRC}/*.h /usr/local/include/",
-        "cp ${OUT}/bake /usr/local/bin/"
-      ]
+      "cmd": ["cp ${OUT}/bake /usr/local/bin/"]
     },
     "${OUT}/**/*.o": {
-      "in": ["${SRC}/**/*.c"],
-      "transitive": ["${SRC}/**/*.h"],
-      "cmd": ["echo ${:TRANSITIVE}", "${CC} -c ${CCFLAGS} -o ${:TARGET} ${:IN}"]
+      "in": ["${SRC}/**/*.cpp"],
+      "transitive": ["${SRC}/**/*.hpp"],
+      "cmd": ["${CC} -c ${CCFLAGS} -o ${:TARGET} ${:IN}"],
+      "cmdMulti": true
     },
     "${OUT}/bake": {
       "default": true,
