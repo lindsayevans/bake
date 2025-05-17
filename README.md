@@ -10,9 +10,9 @@ Yet another build automation tool - partly inspired by Make and NPM
 
 ## TODO:
 
-- Actually run commands
 - Split variable interpolation out into a second pass
 - Variables: get from env
+- Glob file expansion
 - JSONC support (Glaze) - probably need to switch to g++ for C++23 lang support
 - Build schema using Glaze from config struct
 - Install project dependencies
