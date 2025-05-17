@@ -10,14 +10,14 @@ export interface Config {
 
 export interface ConfigTarget {
   default?: boolean;
-  in?: string[];
-  transitive?: string[];
-  cmd?: string[];
+  in?: string | string[];
+  transitive?: string | string[];
+  cmd?: string | string[];
   cmdMulti?: boolean;
   variables?: Record<string, string>;
 }
 
 export interface ConfigProjectDependency {
   source?: string;
-  install?: string[];
+  install?: string | string[];
 }

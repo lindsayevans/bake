@@ -130,31 +130,52 @@ struct config_target get_target(struct config config, json_t *target_json)
 
         if (strcmp(k, "in") == 0)
         {
-            size_t index;
-            json_t *v;
-            json_array_foreach(value, index, v)
+            if (json_is_array(value))
             {
-                target.in.push_back(interpolate_variable(config, json_string_value(v)));
+                size_t index;
+                json_t *v;
+                json_array_foreach(value, index, v)
+                {
+                    target.in.push_back(interpolate_variable(config, json_string_value(v)));
+                }
+            }
+            else if (json_is_string(value))
+            {
+                target.in.push_back(interpolate_variable(config, json_string_value(value)));
             }
         }
 
         if (strcmp(k, "transitive") == 0)
         {
-            size_t index;
-            json_t *v;
-            json_array_foreach(value, index, v)
+            if (json_is_array(value))
             {
-                target.transitive.push_back(interpolate_variable(config, json_string_value(v)));
+                size_t index;
+                json_t *v;
+                json_array_foreach(value, index, v)
+                {
+                    target.transitive.push_back(interpolate_variable(config, json_string_value(v)));
+                }
+            }
+            else if (json_is_string(value))
+                target.transitive.push_back(interpolate_variable(config, json_string_value(value)));
+            {
             }
         }
 
         if (strcmp(k, "cmd") == 0)
         {
-            size_t index;
-            json_t *v;
-            json_array_foreach(value, index, v)
+            if (json_is_array(value))
             {
-                target.cmd.push_back(interpolate_variable(config, json_string_value(v)));
+                size_t index;
+                json_t *v;
+                json_array_foreach(value, index, v)
+                {
+                    target.cmd.push_back(interpolate_variable(config, json_string_value(v)));
+                }
+            }
+            else if (json_is_string(value))
+            {
+                target.cmd.push_back(interpolate_variable(config, json_string_value(value)));
             }
         }
 

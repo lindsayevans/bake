@@ -7,7 +7,7 @@
   "targets": {
     "hello": {
       "default": true,
-      "cmd": ["echo \"Hello ${MESSAGE}!\""]
+      "cmd": "echo \"Hello ${MESSAGE}!\""
     }
   }
 }
