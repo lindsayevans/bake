@@ -11,6 +11,7 @@
 #include "arguments.hpp"
 #include "config.hpp"
 #include "dependency_tree.hpp"
+#include "execute.hpp"
 
 int main(int argc, char **argv)
 {
@@ -68,6 +69,16 @@ int main(int argc, char **argv)
         }
         cout << endl
              << endl;
+    }
+
+    if (!args.dry_run)
+    {
+        bool result = execute_command_queue(command_queue, config, args);
+
+        if (!result)
+        {
+            return EXIT_FAILURE;
+        }
     }
 
     return EXIT_SUCCESS;
