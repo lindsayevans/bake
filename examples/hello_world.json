@@ -1,0 +1,13 @@
+{
+  "$schema": "../schema.json",
+  "name": "Hello World!",
+  "variables": {
+    "MESSAGE": "World"
+  },
+  "targets": {
+    "hello": {
+      "default": true,
+      "cmd": ["echo \"Hello ${MESSAGE}!\""]
+    }
+  }
+}
